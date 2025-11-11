@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+/* Sistema de diseño Cima-Linked */
+:root {
+  /* Colores principales - Verde UABC */
+  --primary-50: #f0fdf4;
+  --primary-100: #dcfce7;
+  --primary-200: #bbf7d0;
+  --primary-300: #86efac;
+  --primary-400: #4ade80;
+  --primary-500: #22c55e;
+  --primary-600: #16a34a;
+  --primary-700: #15803d;
+  --primary-800: #166534;
+  --primary-900: #14532d;
+
+  /* Colores secundarios - Amarillo UABC */
+  --secondary-50: #fefce8;
+  --secondary-100: #fef9c3;
+  --secondary-200: #fef08a;
+  --secondary-300: #fde047;
+  --secondary-400: #facc15;
+  --secondary-500: #eab308;
+  --secondary-600: #ca8a04;
+  --secondary-700: #a16207;
+  --secondary-800: #854d0e;
+  --secondary-900: #713f12;
+
+  /* Tipografías */
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Inter', sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
+
+  /* Espaciado responsivo */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+}
+
+/* Estilos base */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+  }
+
+  body {
+    min-height: 100vh;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  /* Añadir estilos para imágenes responsivas */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Mejora para formularios en móvil */
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+    font-size: 100%;
+    max-width: 100%;
+  }
+
+  /* Mejoras táctiles para móviles */
+  button,
+  [type="button"],
+  [type="reset"],
+  [type="submit"] {
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 44px;
+    cursor: pointer;
+  }
+
+  /* Evitar desbordamiento de texto en móvil */
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
+/* Componentes específicos de Cima-Linked - Mobile-first */
+@layer components {
+
+  /* Header */
+  .header-main {
+    @apply bg-green-700 text-white shadow py-2 px-4 md:py-4 md:px-6;
+  }
+
+  /* Botones */
+  .btn-login {
+    @apply bg-white text-green-700 hover:bg-gray-100 px-3 py-2 md:px-4 md:py-2 rounded text-sm font-medium transition-colors duration-200;
+  }
+
+  .btn-register {
+    @apply bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 md:px-4 md:py-2 rounded text-sm font-medium transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-green-700 hover:bg-green-800 text-white px-4 py-3 rounded text-sm sm:text-base font-medium transition-colors duration-200 text-center shadow-sm;
+  }
+
+  /* Tarjetas */
+  .feature-card {
+    @apply bg-white overflow-hidden shadow rounded-lg border border-gray-200 hover:shadow-md transition-shadow duration-200 p-4 sm:p-6;
+  }
+
+  .feature-icon {
+    @apply flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-md bg-green-700 text-white mb-4;
+  }
+}
+
+/* Media Queries para dispositivos móviles específicos */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Ajustes para espaciado en móvil */
+  section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  /* Ajustes táctiles para botones en móvil */
+  button,
+  .btn-primary,
+  .btn-login,
+  .btn-register {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Ajustes para pantallas medianas */
+@media (min-width: 641px) and (max-width: 1024px) {
+  section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* Transiciones suaves para elementos interactivos */
+@layer utilities {
+  .transition-all-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+}

@@ -1,6 +1,6 @@
 // src/pages/auth/Login.tsx
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../states/AuthContext';
 import Footer from '../../components/footer/Footer';
 import LogoSDGKU from '../../assets/sdgku_logo.webp';
@@ -16,7 +16,7 @@ function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [color, setColor] = useState('border-gray-300');
 
-    // Maneja el envío del formulario
+    // Handle the form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
@@ -32,15 +32,15 @@ function LoginPage() {
     };
 
     useEffect(() => {
-        if (!loading && user && (user.id_role === 1 || user.id_role === 2)) {
-            navigate(`/dashboard`); // Redirige al dashboard
+        if (!loading && user && (user.id_role !== 1)) {
+            navigate(`/requests`); // Redirects to requests page
         }
-        else if (!loading && user && user.id_role === 3) {
-            navigate(`/evaluations`); // Redirige a la página del evaluador
+        else if (!loading && user && user.id_role === 1) {
+            navigate(`/admin`); // Redirects to the admin's page
         }
     }, [loading, user, navigate]);
 
-    // Mientras verifica sesión, muestra una pantalla de carga
+    // While the program verify the session, shows a loading page
     if (loading || user) return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="flex flex-col items-center space-y-4">
@@ -48,14 +48,14 @@ function LoginPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                 </svg>
-                <p className="text-gray-600 text-sm">Cargando sistema...</p>
+                <p className="text-gray-600 text-sm">Loading system...</p>
             </div>
         </div>
     );
 
     return (
         <div className="min-h-screen flex flex-col bg-white">
-            {/* Contenido principal centrado */}
+            {/* Main content centered */}
             <main className="flex-grow flex items-center justify-center">
                 <div className="w-full max-w-2xl px-6 py-8">
                     {/* Logos */}
@@ -63,37 +63,36 @@ function LoginPage() {
                         <div className="flex justify-center items-center space-x-3">
                             <img
                                 src={LogoSDGKU}
-                                alt="Escudo UABC"
-                                className="w-20 sm:w-24 md:w-28 h-auto"
+                                alt="SDGKU Logo"
+                                className="w-20 sm:w-22 md:w-24 h-auto"
                             />
-                            <h1 className="text-2xl sm:text-3xl font-extrabold text-green-700 text-center tracking-tight">
+                            <h1 className="text-2xl sm:text-4xl font-bold text-center">
                                 SDGKU
                             </h1>
                         </div>
 
-                        <p className="text-yellow-600 text-sm sm:text-base text-center leading-tight font-bold">
+                        <p className="text-yellow-600 text-lg sm:text-2xl text-center leading-tight font-bold">
                             Faculty Substitution System
                         </p>
                     </div>
 
-                    {/* Formulario */}
-                    {/* <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200"> */}
+                    {/* Form */}
                     <div className="mx-auto max-w-xs bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
                                 <label
-                                    htmlFor="username"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
+                                    htmlFor="email"
+                                    className="block text-base font-medium text-gray-700 mb-1"
                                 >
-                                    Usuario
+                                    Email
                                 </label>
                                 <input
-                                    id="username"
-                                    name="username"
-                                    type="text"
-                                    autoComplete="username"
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
                                     required
-                                    placeholder="Ingresa tu usuario"
+                                    placeholder="Enter your email..."
                                     className={`appearance-none block w-full px-3 py-2 border ${color} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-600 focus:border-green-600 sm:text-sm`}
                                     value={username}
                                     onChange={(e) => {
@@ -106,9 +105,9 @@ function LoginPage() {
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
+                                    className="block text-base font-medium text-gray-700 mb-1"
                                 >
-                                    Contraseña
+                                    Password
                                 </label>
 
                                 <div className="relative">
@@ -118,7 +117,7 @@ function LoginPage() {
                                         type={showPassword ? "text" : "password"}
                                         autoComplete="current-password"
                                         required
-                                        placeholder="Ingresa tu contraseña"
+                                        placeholder="Enter your password..."
                                         className={`appearance-none block w-full px-3 py-2 pr-10 border ${color} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-600 focus:border-green-600 sm:text-sm`}
                                         value={password}
                                         onChange={(e) => {
@@ -127,12 +126,12 @@ function LoginPage() {
                                         }}
                                     />
 
-                                    {/* Botón para mostrar/ocultar */}
+                                    {/* Show/Hide password button */}
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
                                         className="absolute -inset-y-1 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none"
-                                        aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                        aria-label={showPassword ? "Hide password" : "Show password"}
                                     >
                                         {showPassword ? (
                                             <FontAwesomeIcon icon={faEyeSlash} />
@@ -142,11 +141,13 @@ function LoginPage() {
                                     </button>
                                 </div>
                             </div>
-
+                            <div className='flex justify-end'>
+                                <Link to="/password-recovery" className='text-sm underline text-gray-600 hover:text-gray-900'>Forgot your password?</Link>
+                            </div>
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-all duration-200"
+                                className="w-full py-2 px-4 rounded-md shadow-sm text-sm font-bold text-white bg-[#EF4444] hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-all duration-200"
                             >
                                 {isLoading ? (
                                     <svg
@@ -170,7 +171,7 @@ function LoginPage() {
                                         ></path>
                                     </svg>
                                 ) : (
-                                    "Iniciar Sesión"
+                                    "Sign In"
                                 )}
                             </button>
                         </form>

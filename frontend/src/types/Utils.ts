@@ -21,6 +21,14 @@ export interface JudgeForm {
     id_period: string | null;
 }
 
+// User form data
+export interface UserForm {
+    name: string;
+    email: string;
+    salary?: number;
+    id_role: number;
+}
+
 // Role information
 export interface Role {
     id: string;

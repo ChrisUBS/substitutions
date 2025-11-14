@@ -3,7 +3,6 @@ import { useAuth } from "../../states/AuthContext";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { userService } from "../../services/api";
 import type { UserData } from "../../types/Auth";
-import type { UserForm } from "../../types/Utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faCirclePlus, faUser, faEnvelope, faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 import ConfirmDeleteModal from "../../components/modals/admin/ConfirmDeleteModal";
@@ -28,6 +27,8 @@ function UsersPage() {
             setIsLoading(true);
             try {
                 const usersData = await userService.getAllUsers();
+                // Order users by name
+                usersData.sort((a, b) => a.name.localeCompare(b.name));
                 setUsers(usersData);
             } catch (error) {
                 console.error("Error fetching users:", error);
@@ -69,6 +70,8 @@ function UsersPage() {
             await userService.createUser(data);
             setIsAddModalOpen(false);
             const updatedUsers = await userService.getAllUsers();
+            // Order users by name
+            updatedUsers.sort((a, b) => a.name.localeCompare(b.name));
             setUsers(updatedUsers);
         } catch (error) {
             console.error("Error adding user:", error);
@@ -230,7 +233,6 @@ function UsersPage() {
                     onSave={handleSaveUser}
                     user={userToEdit}
                 />
-                
             </div>
         </div>
     );

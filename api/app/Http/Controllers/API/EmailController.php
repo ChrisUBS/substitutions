@@ -15,12 +15,12 @@ class EmailController extends Controller
 
         // Validate the signature
         if (! URL::hasValidSignature($request)) {
-            return response()->json(['message' => 'Invalid or expired verification link.'], 403);
+            return redirect(env('APP_URL') . '/email-verified?status=expired');
         }
 
         // Verify the email hash
         if (! hash_equals(sha1($user->getEmailForVerification()), $hash)) {
-            return response()->json(['message' => 'Invalid verification hash.'], 403);
+            return redirect(env('APP_URL') . '/email-verified?status=invalid');
         }
 
         // Mark email as verified if it is not already verified
@@ -28,8 +28,8 @@ class EmailController extends Controller
             $user->markEmailAsVerified();
         }
 
-        // return redirect('https://domain.com/email-verified');
-        return response()->json(['message' => 'Email verified successfully!']);
+        // Redirect to frontend with success message
+        return redirect(env('APP_URL') . '/email-verified?status=success');
     }
 
     public function resendVerificationEmail(Request $request) 

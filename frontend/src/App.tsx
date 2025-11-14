@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './states/AuthContext';
 // Auth Pages
 import Login from './pages/auth/LoginPage';
+import VerifyEmailPage from './pages/auth/VerifyEmailPage';
 // Admin Pages
 import RequestsPage from './pages/admin/RequestsPage';
 import AccountingPage from './pages/admin/AccountingPage';
@@ -17,8 +18,9 @@ function App() {
     <AuthProvider>
       <div className="App">
         <Routes>
-          {/* Public route for login */}
+          {/* Public routes for authentication */}
           <Route path="/" element={<Login />} />
+          <Route path="/email-verified" element={<VerifyEmailPage />} />
           {/* Protected routes for administrators (id_role = 1) */}
           <Route
             path="/admin/requests"

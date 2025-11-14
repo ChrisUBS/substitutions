@@ -15,6 +15,7 @@ function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [color, setColor] = useState('border-gray-300');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Handle the form submission
     const handleSubmit = async (e: React.FormEvent) => {
@@ -22,10 +23,16 @@ function LoginPage() {
         setIsLoading(true);
         setColor('border-gray-300');
 
+        // Attempt to login
         try {
             await login(email, password);
-        } catch (err) {
-            setColor('border-red-500');
+        } catch (err: any) {
+            // If email verification is required, open the modal
+            if (err?.response?.data?.require_email_verification === true) {
+                setIsModalOpen(true);
+            } else {
+                setColor('border-red-500');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -182,6 +189,27 @@ function LoginPage() {
                     </div>
                 </div>
             </main>
+
+            {/* Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-white/10 backdrop-blur-sm z-50 px-4 sm:px-0">
+                    <div className="bg-[#F5F5F5] rounded-2xl shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md text-center p-6 animate-fadeIn">
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                            Your email is not verified
+                        </h2>
+                        <p className="text-gray-700 mb-6">We sent you a verification email</p>
+
+                        <div className="flex justify-center gap-6 flex-wrap">
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="bg-yellow-600 text-white font-semibold px-8 py-2 rounded-lg hover:bg-yellow-700 transition-colors text-sm sm:text-base w-full sm:w-auto"
+                            >
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Footer */}
             <Footer />

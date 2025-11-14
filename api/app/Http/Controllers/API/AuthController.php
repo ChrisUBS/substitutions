@@ -56,20 +56,11 @@ class AuthController extends Controller
             'Strict'                                    // SameSite: strict CSRF policy
         );
 
-        // Check if user must change password
-        if ($user->must_change_password) {
-            return response()->json([
-                'message' => 'You must change your password before continuing.',
-                'user' => $user->only(['id', 'name', 'email', 'id_role']),
-                'require_password_change' => true,
-            ], 403) ->withCookie($cookie);
-        } else {
-            // Proceed to normal login response
-            return response()->json([
-                'message' => 'Login successful',
-                'user' => $user->only(['id', 'name', 'email', 'id_role']),
-            ])->withCookie($cookie);
-        }
+        // Return response with cookie
+        return response()->json([
+            'message' => 'Login successful',
+            'user' => $user->only(['id', 'name', 'email', 'id_role']),
+        ])->withCookie($cookie);
     }
 
     public function logout(Request $request)

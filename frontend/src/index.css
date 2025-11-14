@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-/* Sistema de diseño Cima-Linked */
+/* Desing System */
 :root {
-  /* Colores principales - Verde UABC */
+  /* Main Colors - Green */
   --primary-50: #f0fdf4;
   --primary-100: #dcfce7;
   --primary-200: #bbf7d0;
@@ -14,7 +14,7 @@
   --primary-800: #166534;
   --primary-900: #14532d;
 
-  /* Colores secundarios - Amarillo UABC */
+  /* Secondary Colors - Yellow */
   --secondary-50: #fefce8;
   --secondary-100: #fef9c3;
   --secondary-200: #fef08a;
@@ -26,12 +26,12 @@
   --secondary-800: #854d0e;
   --secondary-900: #713f12;
 
-  /* Tipografías */
+  /* Typography */
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Inter', sans-serif;
   --font-mono: 'Roboto Mono', monospace;
 
-  /* Espaciado responsivo */
+  /* Responsive spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -40,7 +40,7 @@
   --spacing-2xl: 3rem;
 }
 
-/* Estilos base */
+/* Base styles */
 @layer base {
   html {
     font-family: var(--font-sans);
@@ -69,14 +69,14 @@
     margin: 0;
   }
 
-  /* Añadir estilos para imágenes responsivas */
+  /* Add styles for responsive images */
   img {
     max-width: 100%;
     height: auto;
     display: block;
   }
 
-  /* Mejora para formularios en móvil */
+  /* Improvement for forms on mobile */
   input,
   select,
   textarea,
@@ -86,7 +86,7 @@
     max-width: 100%;
   }
 
-  /* Mejoras táctiles para móviles */
+  /* Touch improvements for mobile */
   button,
   [type="button"],
   [type="reset"],
@@ -97,7 +97,7 @@
     cursor: pointer;
   }
 
-  /* Evitar desbordamiento de texto en móvil */
+  /* Prevent text overflow on mobile */
   p,
   h1,
   h2,
@@ -111,7 +111,7 @@
   }
 }
 
-/* Componentes específicos de Cima-Linked - Mobile-first */
+/* Specific components - Mobile-first */
 @layer components {
 
   /* Header */
@@ -119,7 +119,7 @@
     @apply bg-green-700 text-white shadow py-2 px-4 md:py-4 md:px-6;
   }
 
-  /* Botones */
+  /* Buttons */
   .btn-login {
     @apply bg-white text-green-700 hover:bg-gray-100 px-3 py-2 md:px-4 md:py-2 rounded text-sm font-medium transition-colors duration-200;
   }
@@ -132,7 +132,7 @@
     @apply bg-green-700 hover:bg-green-800 text-white px-4 py-3 rounded text-sm sm:text-base font-medium transition-colors duration-200 text-center shadow-sm;
   }
 
-  /* Tarjetas */
+  /* Cards */
   .feature-card {
     @apply bg-white overflow-hidden shadow rounded-lg border border-gray-200 hover:shadow-md transition-shadow duration-200 p-4 sm:p-6;
   }
@@ -142,20 +142,20 @@
   }
 }
 
-/* Media Queries para dispositivos móviles específicos */
+/* Media Queries for specific mobile devices */
 @media (max-width: 640px) {
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
   }
 
-  /* Ajustes para espaciado en móvil */
+  /* Adjustments for spacing on mobile */
   section {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
 
-  /* Ajustes táctiles para botones en móvil */
+  /* Touch adjustments for buttons on mobile */
   button,
   .btn-primary,
   .btn-login,
@@ -167,7 +167,7 @@
   }
 }
 
-/* Ajustes para pantallas medianas */
+/* Adjustments for medium screens */
 @media (min-width: 641px) and (max-width: 1024px) {
   section {
     padding-top: 3rem;
@@ -175,7 +175,7 @@
   }
 }
 
-/* Transiciones suaves para elementos interactivos */
+/* Smooth transitions for interactive elements */
 @layer utilities {
   .transition-all-smooth {
     @apply transition-all duration-300 ease-in-out;

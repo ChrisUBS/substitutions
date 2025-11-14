@@ -151,7 +151,7 @@ function LoginPage() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-2 px-4 rounded-md shadow-sm text-sm font-bold text-white bg-[#EF4444] hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-all duration-200"
+                                className="w-full py-2 px-4 rounded-md shadow-sm text-sm font-bold text-white bg-red-600 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-all duration-200"
                             >
                                 {isLoading ? (
                                     <svg

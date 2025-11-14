@@ -1,19 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './states/AuthContext';
-// Pages
+// Auth Pages
 import Login from './pages/auth/LoginPage';
-import DashboardPage from './pages/admin/DashboardPage';
-import ProjectsTopListPage from './pages/admin/dashboard/ProjectsTopListPage';
-import JudgesPage from './pages/admin/JudgesPage';
-import AddProjectsJudge from './pages/admin/judges/AddProjectsJudgePage';
-import ProjectsPage from './pages/admin/ProjectsPage';
-import AddEditProjectsPage from './pages/admin/projects/AddEditProjectsPage';
-import ProjectDetailsPage from './pages/admin/dashboard/ProjectDetailsPage';
-import EvaluationDetailsPage from './pages/admin/dashboard/EvaluationDetailsPage';
-import PeriodsPage from './pages/admin/PeriodsPage';
-import HelpPage from './pages/admin/HelpPage';
-import EvaluationsPage from './pages/judge/EvaluationsPage'
-import GradeProjectPage from './pages/judge/GradeProjectPage'
+// Admin Pages
+import RequestsPage from './pages/admin/RequestsPage';
+import AccountingPage from './pages/admin/AccountingPage';
+import ProgramsPage from './pages/admin/ProgramsPage';
+import UsersPage from './pages/admin/UsersPage';
+// Other Pages
 import NotFound from './pages/NotFound';
 // Hooks
 import ProtectedRoute from './hooks/ProtectedRoute';
@@ -23,114 +17,42 @@ function App() {
     <AuthProvider>
       <div className="App">
         <Routes>
-          {/* Ruta pública para login */}
+          {/* Public route for login */}
           <Route path="/" element={<Login />} />
-          {/* Rutas protegidas para administradores (id_role = 1) */}
+          {/* Protected routes for administrators (id_role = 1) */}
           <Route
-            path="/dashboard"
+            path="/admin/requests"
             element={
               <ProtectedRoute allowedRoles={[1]}>
-                <DashboardPage />
+                <RequestsPage />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/dashboard/:stage/:level/:category?/:campus?"
+            path="/admin/accounting"
             element={
               <ProtectedRoute allowedRoles={[1]}>
-                <ProjectsTopListPage />
+                <AccountingPage />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/dashboard/:stage/:level/:category/:campus/:id"
+            path="/admin/programs"
             element={
               <ProtectedRoute allowedRoles={[1]}>
-                <ProjectDetailsPage />
+                <ProgramsPage />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/dashboard/:stage/:level/:category/:campus/:id/evaluation/:evaluationId"
+            path="/admin/users"
             element={
               <ProtectedRoute allowedRoles={[1]}>
-                <EvaluationDetailsPage />
+                <UsersPage />
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/judges"
-            element={
-              <ProtectedRoute allowedRoles={[1]}>
-                <JudgesPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/judges/:mode"
-            element={
-              <ProtectedRoute allowedRoles={[1]}>
-                <AddProjectsJudge />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/projects"
-            element={
-              <ProtectedRoute allowedRoles={[1]}>
-                <ProjectsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/projects/add"
-            element={
-              <ProtectedRoute allowedRoles={[1]}>
-                <AddEditProjectsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/projects/:id/edit"
-            element={
-              <ProtectedRoute allowedRoles={[1]}>
-                <AddEditProjectsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/periods"
-            element={
-              <ProtectedRoute allowedRoles={[1]}>
-                <PeriodsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/help"
-            element={
-              <ProtectedRoute allowedRoles={[1]}>
-                <HelpPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/evaluations"
-            element={
-              <ProtectedRoute allowedRoles={[3]}>
-                <EvaluationsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/evaluations/:id/grade"
-            element={
-              <ProtectedRoute allowedRoles={[3]}>
-                <GradeProjectPage />
-              </ProtectedRoute>
-            }
-          />
-          {/* Ruta para manejar páginas no encontradas */}
+          {/* Route to handle not found pages */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

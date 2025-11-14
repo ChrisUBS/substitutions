@@ -1,29 +1,25 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService, userService, registerService, periodsService } from '../services/api';
-import type { UserData, AuthContextType, RegisterData } from '../types/Auth';
+import { authService, userService } from '../services/api';
+import type { UserData, AuthContextType } from '../types/Auth';
 
-// Creamos el contexto
+// Create the Auth context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState<UserData | null>(null);
     const [loading, setLoading] = useState(true);
-    const [period, setPeriod] = useState<string | null>(null);
 
-    // Verificar sesión al iniciar
+    // Check session on start
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 const profile = await userService.getUserProfile();
                 setUser(profile);
-                const activePeriod = await periodsService.getActivePeriod();
-                setPeriod(activePeriod);
             } catch (error) {
                 // console.error('Error fetching user profile:', error);
                 setUser(null);
-                setPeriod(null);
             } finally {
                 setLoading(false);
             }
@@ -36,12 +32,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await authService.loginWithCredentials(username, password);
         const profile = await userService.getUserProfile();
         setUser(profile);
-        const activePeriod = await periodsService.getActivePeriod();
-        setPeriod(activePeriod);
-        if (profile?.id_role === 1 || profile?.id_role === 2) {
-            navigate(`/dashboard`, { replace: true });
-        } else if (profile?.id_role === 3) {
-            navigate(`/evaluations`, { replace: true });
+        if (profile?.id_role === 1) {
+            navigate(`/admin/requests`, { replace: true });
+        } else {
+            navigate(`/requests`, { replace: true });
         }
     };
 
@@ -51,29 +45,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         navigate('/', { replace: true });
     };
 
-    const register = async (data: RegisterData) => {
-        await registerService.register(data);
-    };
-
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout, register, period }}>
+        <AuthContext.Provider value={{ user, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// Hook personalizado
+// Custom hook
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     if (!context) {
-        // En caso de que se use fuera del proveedor
+        // In case it is used outside the provider
         return {
             user: null,
             loading: false,
             login: async () => { },
-            logout: async () => { },
-            register: async () => { },
-            period: null,
+            logout: async () => { }
         };
     }
     return context;

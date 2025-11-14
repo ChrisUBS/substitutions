@@ -17,7 +17,6 @@ Route::get('/health', function () { return response()->json(['message' => 'API i
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/login', function() { return response()->json(['message' => 'Please login via API'], 401); })->name('login');
-Route::post('/register', [AuthController::class, 'register']);
 
 // Roles
 Route::get('/roles', [RoleController::class, 'index']);

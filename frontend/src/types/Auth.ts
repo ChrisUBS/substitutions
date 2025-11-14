@@ -1,31 +1,22 @@
 // types/Auth.ts
 
-// Información del usuario
+// User information
 export interface UserData {
     id: number;
     name: string;
-    username: string;
-    password_plain: string | null;
+    email: string;
+    salary: number | null;
+    email_verified_at: string | null;
+    must_change_password: boolean;
     id_role: number;
-    id_period: string | null;
     created_at: string;
     updated_at: string;
 }
 
-// Información del usuario para el registro
-export interface RegisterData {
-	name: string;
-    username: string;
-	password: string;
-	password_confirmation: string;
-}
-
-// Información del contexto de autenticación
+// Authentication context type
 export interface AuthContextType {
     user: UserData | null;
     loading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
-	register: (data: RegisterData) => Promise<void>;
-    period?: string | null;
 };

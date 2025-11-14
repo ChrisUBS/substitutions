@@ -10,7 +10,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 function LoginPage() {
     const { loading, login, user } = useAuth();
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,7 @@ function LoginPage() {
         setColor('border-gray-300');
 
         try {
-            await login(username, password);
+            await login(email, password);
         } catch (err) {
             setColor('border-red-500');
         } finally {
@@ -36,7 +36,7 @@ function LoginPage() {
             navigate(`/requests`); // Redirects to requests page
         }
         else if (!loading && user && user.id_role === 1) {
-            navigate(`/admin`); // Redirects to the admin's page
+            navigate(`/admin/requests`); // Redirects to the admin's page
         }
     }, [loading, user, navigate]);
 
@@ -44,7 +44,7 @@ function LoginPage() {
     if (loading || user) return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="flex flex-col items-center space-y-4">
-                <svg className="animate-spin h-10 w-10 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-10 w-10 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                 </svg>
@@ -58,7 +58,7 @@ function LoginPage() {
             {/* Main content centered */}
             <main className="flex-grow flex items-center justify-center">
                 <div className="w-full max-w-2xl px-6 py-8">
-                    {/* Logos */}
+                    {/* Logo */}
                     <div className="flex flex-col items-center space-y-2 mb-4">
                         <div className="flex justify-center items-center space-x-3">
                             <img
@@ -93,10 +93,10 @@ function LoginPage() {
                                     autoComplete="email"
                                     required
                                     placeholder="Enter your email..."
-                                    className={`appearance-none block w-full px-3 py-2 border ${color} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-600 focus:border-green-600 sm:text-sm`}
-                                    value={username}
+                                    className={`appearance-none block w-full px-3 py-2 border ${color} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-600 focus:border-yellow-600 sm:text-sm`}
+                                    value={email}
                                     onChange={(e) => {
-                                        setUsername(e.target.value);
+                                        setEmail(e.target.value);
                                         setColor("border-gray-300");
                                     }}
                                 />
@@ -118,7 +118,7 @@ function LoginPage() {
                                         autoComplete="current-password"
                                         required
                                         placeholder="Enter your password..."
-                                        className={`appearance-none block w-full px-3 py-2 pr-10 border ${color} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-600 focus:border-green-600 sm:text-sm`}
+                                        className={`appearance-none block w-full px-3 py-2 pr-10 border ${color} rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-600 focus:border-yellow-600 sm:text-sm`}
                                         value={password}
                                         onChange={(e) => {
                                             setPassword(e.target.value);
@@ -141,9 +141,13 @@ function LoginPage() {
                                     </button>
                                 </div>
                             </div>
+
+                            {/* Button to password recovery */}
                             <div className='flex justify-end'>
                                 <Link to="/password-recovery" className='text-sm underline text-gray-600 hover:text-gray-900'>Forgot your password?</Link>
                             </div>
+
+                            {/* Submit button */}
                             <button
                                 type="submit"
                                 disabled={isLoading}

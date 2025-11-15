@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
-import type { JudgeForm } from "../../types/Utils";
-import { useAuth } from '../../states/AuthContext';
 
-interface AddJudgeModalProps {
+interface AddMaterialModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSave: (data: JudgeForm) => Promise<void> | void;
+    onSave: (title: string, link: string) => Promise<void> | void;
 }
 
-const AddJudgeModal: React.FC<AddJudgeModalProps> = ({
+const AddMaterialModal: React.FC<AddMaterialModalProps> = ({
     isOpen,
     onClose,
     onSave,
 }) => {
-    const [name, setName] = useState("");
-    const [username, setUsername] = useState("");
-    const { period } = useAuth();
+    const [title, setTitle] = useState("");
+    const [link, setLink] = useState("");
 
     useEffect(() => {
         if (!isOpen) {
-            setName("");
-            setUsername("");
+            setTitle("");
+            setLink("");
         }
     }, [isOpen]);
 
@@ -29,32 +26,33 @@ const AddJudgeModal: React.FC<AddJudgeModalProps> = ({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Validar que los campos no estén vacíos y que no haya espacios entre palabras
-        if (!name.trim() || !username.trim() || username.includes(" ")) return;
+        // Validate data, not input empty labels and no spaces in links
+        if (!title.trim() || !link.trim() || link.includes(" ")) return;
 
-        onSave({ name, username, id_period: period || null });
-        setName("");
-        setUsername("");
+        onSave(title, link);
+        setTitle("");
+        setLink("");
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-white/10 backdrop-blur-sm z-50 px-4 sm:px-0">
+        <div className="fixed inset-0 flex items-center justify-center bg-[white/10] backdrop-blur-sm z-50 px-4 sm:px-0">
             <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm sm:max-w-md overflow-hidden animate-fadeIn">
                 {/* Header */}
-                <div className="bg-[#00723F] text-white text-center py-3">
-                    <h2 className="text-lg sm:text-xl font-semibold">Agregar juez</h2>
+                <div className="bg-[#7B1315] text-white text-start px-4 py-3">
+                    <h2 className="text-lg sm:text-xl font-semibold">Add Material</h2>
                 </div>
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="p-6 space-y-5">
                     <div>
                         <label className="block text-left font-semibold text-gray-800 mb-1 text-sm sm:text-base">
-                            Nombre del juez <span className="text-red-600">*</span>
+                            Material name <span className="text-red-600">*</span>
                         </label>
                         <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            type="title"
+                            placeholder="Enter material name..."
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                             className="w-full border rounded-md px-3 py-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00723F] text-sm sm:text-base"
                             required
                         />
@@ -62,12 +60,13 @@ const AddJudgeModal: React.FC<AddJudgeModalProps> = ({
 
                     <div>
                         <label className="block text-left font-semibold text-gray-800 mb-1 text-sm sm:text-base">
-                            Usuario o Correo Electrónico <span className="text-red-600">*</span>
+                            Access link <span className="text-red-600">*</span>
                         </label>
                         <input
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            type="title"
+                            placeholder="Enter resource link..."
+                            value={link}
+                            onChange={(e) => setLink(e.target.value)}
                             className="w-full border rounded-md px-3 py-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00723F] text-sm sm:text-base"
                             required
                         />
@@ -76,17 +75,17 @@ const AddJudgeModal: React.FC<AddJudgeModalProps> = ({
                     <div className="flex justify-center gap-4 flex-wrap pt-4">
                         <button
                             type="submit"
-                            className="bg-[#00723F] text-white font-semibold px-8 py-2 rounded-lg hover:bg-green-800 transition-colors text-sm sm:text-base w-full sm:w-auto"
+                            className="bg-[#00723F] text-white font-semibold px-8 py-2 rounded-full hover:bg-green-800 transition-colors text-sm sm:text-base w-full sm:w-auto"
                         >
-                            Guardar
+                            Confirm
                         </button>
 
                         <button
                             type="button"
                             onClick={onClose}
-                            className="bg-black text-white font-semibold px-8 py-2 rounded-lg hover:bg-gray-800 transition-colors text-sm sm:text-base w-full sm:w-auto"
+                            className="bg-black text-white font-semibold px-8 py-2 rounded-full hover:bg-gray-800 transition-colors text-sm sm:text-base w-full sm:w-auto"
                         >
-                            Cancelar
+                            Close
                         </button>
                     </div>
                 </form>
@@ -95,4 +94,4 @@ const AddJudgeModal: React.FC<AddJudgeModalProps> = ({
     );
 };
 
-export default AddJudgeModal;
+export default AddMaterialModal;

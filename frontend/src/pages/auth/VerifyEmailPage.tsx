@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import LogoSDGKU from "../../assets/sdgku_logo.webp";
+import Footer from "../../components/footer/Footer";
 
 type StatusType = "success" | "invalid" | "expired";
 
@@ -24,7 +25,6 @@ export default function VerifyEmailPage() {
             navigate("/", { replace: true });
             return;
         }
-
         setMessage(messages[status]);
     }, [status, navigate]);
 
@@ -41,40 +41,49 @@ export default function VerifyEmailPage() {
     );
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
-            {/* Logo */}
-            <div className="flex flex-col items-center space-y-2 mb-6">
-                <div className="flex justify-center items-center space-x-3">
-                    <img
-                        src={LogoSDGKU}
-                        alt="SDGKU Logo"
-                        className="w-20 sm:w-22 md:w-24 h-auto"
-                    />
-                    <h1 className="text-2xl sm:text-4xl font-bold text-center">
-                        SDGKU
-                    </h1>
+        <div className="min-h-screen flex flex-col justify-between bg-white">
+            
+            {/* Main content */}
+            <div className="flex flex-col items-center justify-center bg-gray-100 px-4 py-10 flex-grow">
+                
+                {/* Logo */}
+                <div className="flex flex-col items-center space-y-2 mb-6">
+                    <div className="flex justify-center items-center space-x-3">
+                        <img
+                            src={LogoSDGKU}
+                            alt="SDGKU Logo"
+                            className="w-20 sm:w-22 md:w-24 h-auto"
+                        />
+                        <h1 className="text-2xl sm:text-4xl font-bold text-center">
+                            SDGKU
+                        </h1>
+                    </div>
+                    <p className="text-yellow-600 text-lg sm:text-2xl text-center leading-tight font-bold">
+                        Faculty Substitution System
+                    </p>
                 </div>
-                <p className="text-yellow-600 text-lg sm:text-2xl text-center leading-tight font-bold">
-                    Faculty Substitution System
-                </p>
-            </div>
-            {/* Message Box */}
-            <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full text-center">
-                <h1 className="text-2xl font-semibold mb-4">Email Verification</h1>
-                {status === "success" ? (
-                    <p className="text-green-600 text-lg mb-6">{message}</p>
-                ) : (
-                    <p className="text-red-600 text-lg mb-6">{message}</p>
-                )}
-                <div className="flex justify-center">
-                    <button
-                        onClick={() => navigate("/")}
-                        className="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-800 transition"
-                    >
-                        Go to Login
-                    </button>
+
+                {/* Message Box */}
+                <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full text-center">
+                    <h1 className="text-2xl font-semibold mb-4">Email Verification</h1>
+                    {status === "success" ? (
+                        <p className="text-green-600 text-lg mb-6">{message}</p>
+                    ) : (
+                        <p className="text-red-600 text-lg mb-6">{message}</p>
+                    )}
+                    <div className="flex justify-center">
+                        <button
+                            onClick={() => navigate("/")}
+                            className="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-800 transition"
+                        >
+                            Go to Login
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 }

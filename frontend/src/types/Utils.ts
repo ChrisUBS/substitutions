@@ -1,5 +1,13 @@
 // types/Utils.ts
 
+// Email Authentication
+export interface ResetPasswordData {
+    email: string;
+    token: string;
+    password: string;
+    password_confirmation: string;
+}
+
 // Card component props 
 // TODO: Change the types according to actual use cases
 export interface Judge {

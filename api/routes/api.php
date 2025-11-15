@@ -17,12 +17,14 @@ Route::get('/health', function () { return response()->json(['message' => 'API i
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/login', function() { return response()->json(['message' => 'Please login via API'], 401); })->name('login');
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 // Roles
 Route::get('/roles', [RoleController::class, 'index']);
 
-// **** Email verification route ****
+// **** Email verification routes ****
 Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
+Route::post('/email/recovery-password', [EmailController::class, 'sendResetPasswordLink'])->name('password.email');
 // Note: If you want only users with verified email to access certain routes, add the  'verified' middleware.
 
 // **** Protected routes ****

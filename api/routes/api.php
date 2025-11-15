@@ -9,6 +9,10 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\EmailController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\ProgramController;
+use App\Http\Controllers\API\CourseController;
+use App\Http\Controllers\API\CohortController;
+use App\Http\Controllers\API\RequestController;
 
 // **** Public routes ****
 // Health check
@@ -38,7 +42,25 @@ Route::middleware(['cookie.auth', 'auth:sanctum'])->group(function () {
     
     // Users
     Route::apiResource('users', UserController::class);
+    Route::get('/users/role/{roleName}', [UserController::class, 'getUsersByRole']);
+    Route::get('/users/{id}/requests', [UserController::class, 'getUserRequests']);
+
+    // Programs
+    Route::apiResource('programs', ProgramController::class);
+    Route::get('/programs/{id}/courses', [ProgramController::class, 'getCourses']);
+    Route::get('/programs/{id}/cohorts', [ProgramController::class, 'getCohorts']);
+
+    // Courses
+    Route::apiResource('courses', CourseController::class);
+
+    // Cohorts
+    Route::apiResource('cohorts', CohortController::class);
+    Route::get('/cohorts/{id}/courses', [CohortController::class, 'getCourses']);
+    Route::get('/cohorts/{id}/courses/{courseId}/discounts', [CohortController::class, 'getDiscountHistories']);
     
+    // Requests
+    Route::apiResource('requests', RequestController::class);
+
     // User profile
     Route::get('/profile', function (Request $request) {
         return $request->user();

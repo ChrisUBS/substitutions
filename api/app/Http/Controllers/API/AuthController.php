@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -103,5 +104,48 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Password changed successfully. Please log in again.',
         ], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'email' => 'required|email',
+            'token' => 'required',
+            'password' => 'required|string|min:8|confirmed', // password_confirmation required
+        ]);
+
+        // Find user by email
+        $user = User::where('email', $request->email)->first();
+
+        // Attempt to reset the password
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+
+            function ($user, $password) {
+                // Change password with hash
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            // Update must_change_password flag
+            if ($user) {
+                $user->must_change_password = false;
+                $user->save();
+                // Revoke all existing tokens
+                $user->tokens()->delete();
+            }
+
+            // Return success response
+            return response()->json([
+                'message' => 'Password updated successfully.'
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Invalid token or email.'
+        ], 400);
     }
 }

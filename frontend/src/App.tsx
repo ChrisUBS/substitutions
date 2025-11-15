@@ -3,6 +3,8 @@ import { AuthProvider } from './states/AuthContext';
 // Auth Pages
 import Login from './pages/auth/LoginPage';
 import VerifyEmailPage from './pages/auth/VerifyEmailPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
+import RecoveryPasswordPage from './pages/auth/RecoveryPasswordPage';
 // Admin Pages
 import RequestsPage from './pages/admin/RequestsPage';
 import AccountingPage from './pages/admin/AccountingPage';
@@ -21,6 +23,8 @@ function App() {
           {/* Public routes for authentication */}
           <Route path="/" element={<Login />} />
           <Route path="/email-verified" element={<VerifyEmailPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/recovery-password" element={<RecoveryPasswordPage />} />
           {/* Protected routes for administrators (id_role = 1) */}
           <Route
             path="/admin/requests"

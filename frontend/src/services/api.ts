@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import type { UserData } from "../types/Auth";
-import type { Role } from "../types/Utils";
+import type { Role, ResetPasswordData } from "../types/Utils";
 
 // Axios instance configuration
 
@@ -31,12 +31,27 @@ export const authService = {
       throw error;
     }
   },
-
   logout: async () => {
     try {
       await api.post("/logout");
     } catch (error) {
       console.error("Error during logout:", error);
+    }
+  },
+  sendRecoveryEmail: async (email: string): Promise<void> => {
+    try {
+      await api.post("/email/recovery-password", { email });
+    } catch (error) {
+      console.error("Error sending recovery email:", error);
+      throw error;
+    }
+  },
+  resetPassword: async (ResetData: ResetPasswordData): Promise<void> => {
+    try {
+      await api.post("/reset-password", ResetData);
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      throw error;
     }
   },
 };

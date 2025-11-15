@@ -151,7 +151,7 @@ function LoginPage() {
 
                             {/* Button to password recovery */}
                             <div className='flex justify-end'>
-                                <Link to="/password-recovery" className='text-sm underline text-gray-600 hover:text-gray-900'>Forgot your password?</Link>
+                                <Link to="/recovery-password" className='text-sm underline text-gray-600 hover:text-gray-900'>Forgot your password?</Link>
                             </div>
 
                             {/* Submit button */}

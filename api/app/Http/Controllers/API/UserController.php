@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Request as UserRequest;
+use App\Models\CohortCourse;
 use App\Notifications\SendTemporaryPassword;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -160,5 +162,59 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'User deleted successfully'], 200);
+    }
+
+    public function getUsersByRole($roleName)
+    {
+        // Check if the user is authenticated
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        $users = User::whereHas('role', function ($query) use ($roleName) {
+            $query->where('name', $roleName);
+        })->get();
+
+        return response()->json(['users' => $users], 200);
+    }
+
+    // obtener todas las requests de un usuario
+    public function getUserRequests($id)
+    {
+        // Check if the user is authenticated
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        $user = User::findOrFail($id);
+        $userId   = $user->id;
+        $userName = $user->name;
+
+        // Requests where the user is SUBSTITUTE
+        $requestsAsSubstitute = UserRequest::where('id_substitute', $userId);
+
+        // Requests where the user was the HISTORICAL instructor by name
+        $cohortCoursesByName = CohortCourse::where('instructor_name', $userName)->pluck('id');
+
+        // Requests where the user is the CURRENT instructor by FK in courses
+        $cohortCoursesByInstructor = CohortCourse::whereIn('id_course', function ($q) use ($userId) {
+            $q->select('id')->from('courses')->where('id_instructor', $userId);
+        })->pluck('id');
+
+        // Unify the IDs of cohort_course
+        $allCohortCourseIds = $cohortCoursesByName
+            ->merge($cohortCoursesByInstructor)
+            ->unique()
+            ->values();
+
+        // Requests where the user is INSTRUCTOR (current or historical)
+        $requestsAsInstructor = UserRequest::whereIn('id_cohort_course', $allCohortCourseIds);
+
+        // Unify the 2 collections into one
+        $allUserRequests = $requestsAsSubstitute
+            ->union($requestsAsInstructor)
+            ->get();    
+        
+        return response()->json(['requests' => $allUserRequests], 200);
     }
 }
